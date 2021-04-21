@@ -1,0 +1,31 @@
+version: "3"
+
+services: 
+    web:
+        build: ./front
+        restart: always
+        ports: 
+            - "3000:80"
+        networks:
+            - app-network
+        links: 
+            - database
+        
+    database:
+        image: mysql
+        restart: always
+        networks:
+            - app-network
+        ports: 
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: laravel-starter
+            MYSQL_USER: root
+            MYSQL_ROOT_PASSWORD: root
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+
+
+networks:
+    app-network:
+        driver: bridge
